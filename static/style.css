@@ -1,0 +1,44 @@
+/* Custom Styling for BioPath AI  */
+body {
+    font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    color: #2c3e50;
+}
+
+.navbar-brand {
+    letter-spacing: 1px;
+}
+
+.card {
+    border: none;
+    border-radius: 8px;
+}
+
+.card-header {
+    border-bottom: 1px solid #edf2f7;
+}
+
+.btn-primary {
+    background-color: #3182ce;
+    border: none;
+}
+
+.btn-primary:hover {
+    background-color: #2b6cb0;
+}
+
+.badge {
+    font-weight: 500;
+    padding: 0.5em 0.8em;
+}
+
+.border-success { border-left-color: #48bb78!important; }
+.border-warning { border-left-color: #ed8936!important; }
+.border-danger { border-left-color: #e53e3e!important; }
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+   .container {
+        padding-left: 15px;
+        padding-right: 15px;
+    }
+}
