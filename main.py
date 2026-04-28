@@ -19,20 +19,21 @@ def startup_event():
 @app.get("/", response_class=HTMLResponse)
 async def index(request: Request, db: Session = Depends(database.get_db)):
     opps = db.query(Opportunity).all()
-    return templates.TemplateResponse("index.html", {"request": request, "opportunities": opps})
+    # UPDATED: Explicitly label request, name, and context
+    return templates.TemplateResponse(request=request, name="index.html", context={"request": request, "opportunities": opps})
 
 @app.get("/category/{cat_type}", response_class=HTMLResponse)
 async def get_by_category(request: Request, cat_type: str, db: Session = Depends(database.get_db)):
     opps = db.query(Opportunity).filter(Opportunity.category == cat_type).all()
-    return templates.TemplateResponse("index.html", {"request": request, "opportunities": opps, "active_cat": cat_type})
+    # UPDATED: Explicitly label request, name, and context
+    return templates.TemplateResponse(request=request, name="index.html", context={"request": request, "opportunities": opps, "active_cat": cat_type})
 
 @app.post("/match", response_class=HTMLResponse)
 async def match_profile(
     request: Request, 
     skills: str = Form(...), 
     field: str = Form(...),
-    db: Session = Depends(database.get_db)
-):
+    db: Session = Depends(database.get_db)):
     user_profile = {"skills": skills, "field": field}
     opps = db.query(Opportunity).all()
     
@@ -45,7 +46,8 @@ async def match_profile(
     results = sorted(results, key=lambda x: x['score'], reverse=True)
     suggestions = ai_module.suggest_careers(user_profile, opps)
     
-    return templates.TemplateResponse("index.html", {
+    # UPDATED: Explicitly label request, name, and context
+    return templates.TemplateResponse(request=request, name="index.html", context={
         "request": request, 
         "results": results, 
         "suggestions": suggestions,
