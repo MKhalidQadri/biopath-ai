@@ -87,12 +87,15 @@ body.light-mode .bio-select option {
     box-shadow: 0 0 0 0.2rem rgba(0, 255, 163, 0.25);
 }
 
-/* ==========================================
-   RESPONSIVE
-========================================== */
 @media (max-width: 768px) {
-    .container {
-        padding-left: 15px;
-        padding-right: 15px;
-    }
+            .topbar-inner { display: flex; justify-content: space-between; align-items: center; }
+            .nav-links { gap: 4px; }
+            .nav-links a { padding: 6px 8px; font-size: 0.65rem; }
+            .brand { position: absolute; left: 50%; transform: translateX(-50%); }
+            
+            /* FIX: Just shrink the font slightly instead of hiding words */
+            .brand-wordmark { font-size: 1.25rem; } 
+            
+            .btn-full { max-width: 100%; }
+        
 }
