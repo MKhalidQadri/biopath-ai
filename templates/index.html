@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
+  <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>BioPath - Intelligence Hub</title>
@@ -8,143 +8,141 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
     
     <style>
-        /* =====================================================
-           DESIGN SYSTEM: BIOPUNK LAB TERMINAL
-           Aesthetic: Bioluminescent science, dark precision
-        ===================================================== */
-        :root {
-            --bio: #00ffa3;
-            --bio-dim: #00c97a;
-            --bio-glow: rgba(0, 255, 163, 0.18);
-            --bio-border: rgba(0, 255, 163, 0.22);
-            --accent: #3bffd6;
-            --warn: #ffce47;
-            --bg: #050a12;
-            --surface: #080f1c;
-            --glass: rgba(10, 22, 40, 0.85);
-            --glass-light: rgba(0, 255, 163, 0.04);
-            --text: #e2f4ee;
-            --muted: #5f8a78;
-            --line: rgba(0, 255, 163, 0.1);
+      /* =====================================================
+         DESIGN SYSTEM: BIOPUNK LAB TERMINAL
+         Aesthetic: Bioluminescent science, dark precision
+      ===================================================== */
+      :root {
+        --bio: #00ffa3;
+        --bio-dim: #00c97a;
+        --bio-glow: rgba(0, 255, 163, 0.18);
+        --bio-border: rgba(0, 255, 163, 0.22);
+        --accent: #3bffd6;
+        --warn: #ffce47;
+        --bg: #050a12;
+        --surface: #080f1c;
+        --glass: rgba(10, 22, 40, 0.85);
+        --glass-light: rgba(0, 255, 163, 0.04);
+        --text: #e2f4ee;
+        --muted: #5f8a78;
+        --line: rgba(0, 255, 163, 0.1);
 
-            /* Light overrides */
-            --bg-l: #f0faf6;
-            --surface-l: #ffffff;
-            --glass-l: rgba(255, 255, 255, 0.9);
-            --text-l: #0b1f18;
-            --muted-l: #4a7a68;
-            --line-l: rgba(0, 100, 70, 0.12);
-        }
+        /* Light overrides */
+        --bg-l: #f0faf6;
+        --surface-l: #ffffff;
+        --glass-l: rgba(255, 255, 255, 0.9);
+        --text-l: #0b1f18;
+        --muted-l: #4a7a68;
+        --line-l: rgba(0, 100, 70, 0.12);
+      }
 
-        body {
-            font-family: 'DM Sans', sans-serif;
-            background-color: var(--bg);
-            color: var(--text);
-            min-height: 100vh;
-            overflow-x: hidden;
-            transition: background-color 0.4s ease, color 0.4s ease;
-            margin: 0;
-        }
+      body {
+        font-family: 'DM Sans', sans-serif;
+        background-color: var(--bg);
+        color: var(--text);
+        min-height: 100vh;
+        overflow-x: hidden;
+        transition: background-color 0.4s ease, color 0.4s ease;
+        margin: 0;
+      }
 
-        body.light-mode {
-            --bg: var(--bg-l);
-            --surface: var(--surface-l);
-            --glass: var(--glass-l);
-            --text: var(--text-l);
-            --muted: var(--muted-l);
-            --line: var(--line-l);
-            --bio-glow: rgba(0, 160, 100, 0.12);
-            --bio-border: rgba(0, 130, 80, 0.2);
-        }
+      body.light-mode {
+        --bg: var(--bg-l);
+        --surface: var(--surface-l);
+        --glass: var(--glass-l);
+        --text: var(--text-l);
+        --muted: var(--muted-l);
+        --line: var(--line-l);
+        --bio-glow: rgba(0, 160, 100, 0.12);
+        --bio-border: rgba(0, 130, 80, 0.2);
+      }
 
-        /* ── Canvas Background ── */
-        #particle-canvas {
-            position: fixed;
-            top: 0; left: 0;
-            width: 100%; height: 100%;
-            pointer-events: none;
-            z-index: 0;
-            opacity: 0.35;
-        }
+      /* ── Canvas Background ── */
+      #particle-canvas {
+        position: fixed;
+        top: 0; left: 0;
+        width: 100%; height: 100%;
+        pointer-events: none;
+        z-index: 0;
+        opacity: 0.35;
+      }
 
-        body.light-mode #particle-canvas { opacity: 0.12; }
+      body.light-mode #particle-canvas { opacity: 0.12; }
 
-        /* ── Grid Overlay ── */
-        body::before {
-            content: '';
-            position: fixed;
-            inset: 0;
-            background-image:
-                linear-gradient(rgba(0,255,163,0.025) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(0,255,163,0.025) 1px, transparent 1px);
-            background-size: 40px 40px;
-            pointer-events: none;
-            z-index: 0;
-            transition: opacity 0.5s;
-        }
-        body.light-mode::before { opacity: 0.4; }
+      /* ── Grid Overlay ── */
+      body::before {
+        content: '';
+        position: fixed;
+        inset: 0;
+        background-image:
+          linear-gradient(rgba(0,255,163,0.025) 1px, transparent 1px),
+          linear-gradient(90deg, rgba(0,255,163,0.025) 1px, transparent 1px);
+        background-size: 40px 40px;
+        pointer-events: none;
+        z-index: 0;
+        transition: opacity 0.5s;
+      }
+      body.light-mode::before { opacity: 0.4; }
 
-        .content-wrap { position: relative; z-index: 1; }
+      .content-wrap { position: relative; z-index: 1; }
 
-        /* ── NAVBAR ── */
-        .topbar {
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-            background: rgba(5, 10, 18, 0.88);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border-bottom: 1px solid var(--bio-border);
-            height: 75px;
-            display: flex;
-            align-items: center;
-            transition: background 0.4s ease;
-        }
-        body.light-mode .topbar { background: rgba(240, 250, 246, 0.9); }
+      /* ── NAVBAR ── */
+      .topbar {
+        position: sticky;
+        top: 0;
+        z-index: 1000;
+        background: rgba(5, 10, 18, 0.88);
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+        border-bottom: 1px solid var(--bio-border);
+        height: 75px;
+        display: flex;
+        align-items: center;
+        transition: background 0.4s ease;
+      }
+      body.light-mode .topbar { background: rgba(240, 250, 246, 0.9); }
 
-        .topbar-inner {
-            max-width: 1320px;
-            width: 100%;
-            margin: 0 auto;
-            padding: 0 28px;
-            position: relative;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
+      .topbar-inner {
+        max-width: 1320px;
+        width: 100%;
+        margin: 0 auto;
+        padding: 0 28px;
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
 
-        /* Left nav links */
-        .nav-links {
-            display: flex;
-            gap: 8px;
-            list-style: none;
-            margin: 0; padding: 0;
-            z-index: 2;
-        }
+      /* Left nav links */
+      .nav-links {
+        display: flex;
+        gap: 8px;
+        list-style: none;
+        margin: 0; padding: 0;
+        z-index: 2;
+      }
 
-        .nav-links a {
-            font-family: 'Space Mono', monospace;
-            font-size: 0.75rem;
-            font-weight: 700;
-            letter-spacing: 0.08em;
-            text-transform: uppercase;
-            text-decoration: none;
-            color: var(--muted);
-            padding: 8px 14px;
-            border-radius: 8px;
-            border: 1px solid transparent;
-            transition: all 0.25s ease;
-        }
-        .nav-links a:hover, .nav-links a.active {
-            color: var(--bio);
-            border-color: var(--bio-border);
-            background: var(--bio-glow);
-            text-shadow: 0 0 12px rgba(0,255,163,0.5);
-        }
+      .nav-links a {
+        font-family: 'Space Mono', monospace;
+        font-size: 0.75rem;
+        font-weight: 700;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        text-decoration: none;
+        color: var(--muted);
+        padding: 8px 14px;
+        border-radius: 8px;
+        border: 1px solid transparent;
+        transition: all 0.25s ease;
+      }
+      .nav-links a:hover, .nav-links a.active {
+        color: var(--bio);
+        border-color: var(--bio-border);
+        background: var(--bio-glow);
+        text-shadow: 0 0 12px rgba(0,255,163,0.5);
+      }
 
-        /* Center brand */
-
-      /* Center brand - Absolute positioning keeps it dead center */
+      /* Center brand - Absolute positioning keeps it dead center on desktop */
       .brand {
         position: absolute;
         left: 50%;
@@ -355,12 +353,13 @@
         opacity: 0.6;
       }
 
+      /* 💡 THE DROPDOWN FIX (WINDOWS/CHROME COMPATIBLE) */
       .bio-select {
         width: 100%;
-        background: rgba(0, 255, 163, 0.03);
+        background-color: var(--surface) !important;
         border: 1px solid var(--bio-border);
         border-radius: 12px;
-        color: var(--text);
+        color: var(--text) !important;
         font-family: "DM Sans", sans-serif;
         font-size: 0.95rem;
         padding: 14px 16px;
@@ -372,24 +371,22 @@
       }
       .bio-select:focus {
         border-color: var(--bio);
-        background: rgba(0, 255, 163, 0.06);
         box-shadow: 0 0 0 3px rgba(0, 255, 163, 0.1);
       }
 
-      /* FIX: Dropdown Options Background */
       .bio-select option {
-        background-color: var(--surface);
-        color: var(--text);
+        background-color: var(--surface) !important;
+        color: var(--text) !important;
         font-weight: 500;
       }
 
       body.light-mode .bio-select {
-        background: rgba(0, 120, 80, 0.04);
-        color: var(--text-l);
+        background-color: #f0faf6 !important;
+        color: var(--text-l) !important;
       }
       body.light-mode .bio-select option {
-        background-color: var(--surface-l);
-        color: var(--text-l);
+        background-color: #ffffff !important;
+        color: var(--text-l) !important;
       }
 
       .select-wrap {
@@ -890,7 +887,7 @@
         text-transform: uppercase;
       }
 
-      /* ── MOBILE RESPONSIVENESS ── */
+      /* 💡 THE MOBILE LAYOUT AND TEXT FIX */
       @media (max-width: 960px) {
         .main-grid {
           grid-template-columns: 1fr;
@@ -905,31 +902,49 @@
           font-size: 1.35rem;
         }
       }
+
       @media (max-width: 768px) {
         .topbar-inner {
           display: flex;
           justify-content: space-between;
           align-items: center;
+          padding: 0 12px;
+          flex-wrap: wrap; /* Allows wrapping on tiny screens */
+          gap: 10px;
         }
         .nav-links {
           gap: 4px;
+          order: 3; /* Push links to bottom row */
+          width: 100%;
+          justify-content: center;
+          padding-top: 5px;
         }
         .nav-links a {
-          padding: 6px 8px;
-          font-size: 0.65rem;
+          padding: 6px 10px;
+          font-size: 0.7rem;
         }
+        
+        /* Stop the logo from overlapping by removing absolute positioning */
         .brand {
-          position: absolute;
-          left: 50%;
-          transform: translateX(-50%);
+          position: relative;
+          left: auto;
+          transform: none;
+          order: 1;
         }
-        .brand-wordmark span {
-          display: none;
-        }
-        .brand-wordmark::after {
-          content: "AI";
-          color: var(--bio);
-        }
+        
+        /* Resize logo elements to fit gracefully */
+        .brand-mark { width: 34px; height: 34px; }
+        .brand-mark i { font-size: 1rem; }
+        .brand-wordmark { font-size: 1.25rem; }
+        
+        /* Force 'Path' to stay visible and eliminate the injected 'AI' */
+        .brand-wordmark span { display: inline !important; }
+        .brand-wordmark::after { content: none !important; }
+        
+        .topbar-right { order: 2; }
+        .topbar { height: auto; padding: 10px 0; }
+        .theme-btn { width: 36px; height: 36px; font-size: 0.9rem; }
+        .btn-full { max-width: 100%; }
       }
     </style>
   </head>
@@ -940,6 +955,7 @@
     <div class="content-wrap">
       <nav class="topbar">
         <div class="topbar-inner">
+          
           <ul class="nav-links">
             <li>
               <a
