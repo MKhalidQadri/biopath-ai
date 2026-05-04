@@ -403,20 +403,39 @@ body.light-mode .bio-footer { background: rgba(240,250,246,0.9); }
 .divider-label { font-family: 'Space Mono', monospace; font-size: 0.65rem; letter-spacing: 0.1em; color: var(--muted); text-transform: uppercase; }
 
 /* ── MOBILE RESPONSIVENESS FIXES ── */
-@media (max-width: 960px) {
-    .main-grid { grid-template-columns: 1fr; }
-    .topbar-inner { padding: 0 16px; }
-    .sys-badge { display: none; }
-    .brand-wordmark { font-size: 1.35rem; }
-}
-@media (max-width: 768px) {
-    .topbar-inner { display: flex; justify-content: space-between; align-items: center; }
-    .nav-links { gap: 4px; }
-    .nav-links a { padding: 6px 8px; font-size: 0.65rem; }
-    .brand { position: absolute; left: 50%; transform: translateX(-50%); }
-    
-    /* Shrink the font so BioPath fits perfectly without hiding text */
-    .brand-wordmark { font-size: 1.25rem; } 
-    
-    .btn-full { max-width: 100%; }
-}
+        @media (max-width: 960px) {
+            .main-grid { grid-template-columns: 1fr; }
+            .topbar-inner { padding: 0 16px; }
+            .sys-badge { display: none; }
+            .brand-wordmark { font-size: 1.35rem; }
+        }
+        
+        @media (max-width: 768px) {
+            .topbar-inner { 
+                display: flex; 
+                justify-content: space-between; 
+                align-items: center; 
+                padding: 0 12px;
+            }
+            .nav-links { gap: 2px; }
+            .nav-links a { padding: 6px 8px; font-size: 0.65rem; }
+            
+            /* FIX 1: Remove absolute positioning to prevent elements from overlapping */
+            .brand { 
+                position: relative; 
+                left: auto; 
+                transform: none; 
+            }
+            
+            /* FIX 2: Shrink the logo slightly so everything fits nicely in one row */
+            .brand-mark { width: 34px; height: 34px; }
+            .brand-mark i { font-size: 1rem; }
+            .brand-wordmark { font-size: 1.15rem; }
+            
+            /* FIX 3: Force the word "Path" to stay visible and remove the ghost "AI" */
+            .brand-wordmark span { display: inline !important; } 
+            .brand-wordmark::after { content: none !important; }
+            
+            .theme-btn { width: 36px; height: 36px; font-size: 0.9rem; }
+            .btn-full { max-width: 100%; }
+        }
