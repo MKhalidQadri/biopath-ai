@@ -291,6 +291,13 @@
             transition: all 0.4s ease;
         }
 
+        .brand:hover .brand-mark {
+            border-color: var(--bio);
+            box-shadow: 0 0 30px rgba(0, 255, 163, 0.45), inset 0 0 20px rgba(0, 255, 163, 0.25);
+        }
+        .brand:hover .brand-mark::before { inset: -6px; border-color: rgba(59, 255, 214, 0.35); }
+        .brand:hover .brand-mark::after { inset: -12px; border-color: var(--bio); opacity: 0.4; }
+
         .brand-mark svg .layer-outer { transform-origin: center; animation: radarRotation 14s linear infinite; }
         .brand-mark svg .layer-mid { transform-origin: center; animation: radarRotation 7s linear infinite reverse; }
         .brand-mark svg .layer-core { transform-origin: center; animation: bioPulse 2.2s ease-in-out infinite; }
@@ -636,6 +643,22 @@
         .btn-creative-gateway:hover::before { left: 100%; }
         .btn-creative-gateway i { font-size: 1rem; flex-shrink: 0; }
 
+        /* 💥 OPTION 2: DARK BACKGROUND FOR LIGHT MODE LEGIBILITY 💥 */
+        body.light-mode .btn-creative-gateway {
+            background: #080f1c; 
+            border-color: rgba(0, 130, 80, 0.4);
+        }
+        body.light-mode .btn-creative-gateway span {
+            color: #ffffff; 
+        }
+        body.light-mode .btn-creative-gateway:hover {
+            background: var(--bio-dim);
+            border-color: var(--bio-dim);
+        }
+        body.light-mode .btn-creative-gateway:hover span {
+            color: #ffffff;
+        }
+
         .btn-search { 
             display: inline-flex; align-items: center; justify-content: center; width: 42px; height: 42px;
             border-radius: 10px; border: 1px solid var(--line); background: rgba(255,255,255,0.02); color: var(--muted); text-decoration: none; flex-shrink: 0;
@@ -738,7 +761,7 @@
             .cta-row { flex-direction: column; align-items: stretch; gap: 12px; width: 100%; }
             .cta-group { width: 100%; display: flex; gap: 8px; }
             .btn-creative-gateway { flex: 1; justify-content: center; padding: 12px; text-align: center; }
-            .btn-creative-gateway span { font-size: 0.75rem; text-align: center; }
+            .btn-creative-gateway span { font-size: 0.75rem; text-align: center; white-space: normal; line-height: 1.4;}
             .results-header { flex-direction: column; align-items: flex-start; gap: 12px; width: 100%; }
             
             .gateway-terminal { padding: 20px; width: 92vw; }
@@ -1037,7 +1060,7 @@
                                         <i class="bi bi-terminal-fill"></i> <span>click here on the link to apply</span>
                                     </button>
                                 {% else %}
-                                    <button onclick="executeSecureRouting('https://www.google.com/search?q={{ (data.title ~ " official portal application direct " ~ data.location)|urlencode }}&btnI=I', '{{ data.title | escape }}', true)" class="btn-creative-gateway" style="border-color: rgba(59, 255, 214, 0.25);">
+                                    <button onclick="executeSecureRouting('https://www.google.com/search?q={{ (data.title ~ " official portal application direct " ~ data.location)|urlencode }}&btnI=I', '{{ data.title | escape }}', true)" class="btn-creative-gateway">
                                         <i class="bi bi-box-arrow-up-right"></i> <span>click here to auto-route to application</span>
                                     </button>
                                 {% endif %}
