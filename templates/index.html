@@ -521,6 +521,7 @@
             text-transform: uppercase;
             letter-spacing: 0.05em;
             backdrop-filter: blur(5px);
+            box-sizing: border-box;
         }
         .ad-panel i { font-size: 2rem; margin-bottom: 10px; color: var(--bio-border); display: block; }
 
@@ -626,6 +627,7 @@
             font-weight: 400;
             opacity: 0.7;
             transition: opacity 0.3s;
+            white-space: normal;
         }
 
         /* Moving laser sweep line behind text */
@@ -662,6 +664,7 @@
             color: var(--muted); 
             text-decoration: none; 
             transition: all 0.25s; 
+            flex-shrink: 0;
         }
         .btn-search:hover { 
             border-color: var(--bio-border); 
@@ -691,6 +694,8 @@
         }
         .gateway-terminal {
             width: 520px;
+            max-width: 90vw;
+            box-sizing: border-box;
             background: var(--surface);
             border: 1px solid var(--bio-border);
             border-radius: 16px;
@@ -791,6 +796,22 @@
             .brand-wordmark { font-size: 1.25rem; }
             .brand-wordmark span { display: inline !important; } 
             .brand-wordmark::after, .brand-wordmark::before { content: none !important; }
+
+            /* Advanced Mobile Adjustments */
+            .main-grid { padding: 20px 16px 60px; gap: 20px; }
+            .opp-card { padding: 20px; margin-bottom: 16px; }
+            .card-top { flex-direction: column; gap: 16px; }
+            .score-ring-wrap { align-self: flex-start; }
+            .meta-row { grid-template-columns: 1fr; padding: 12px; }
+            
+            .cta-row { flex-direction: column; align-items: stretch; gap: 12px; }
+            .cta-group { width: 100%; display: flex; gap: 8px; }
+            .btn-creative-gateway { flex: 1; justify-content: center; padding: 12px; text-align: center; }
+            .btn-creative-gateway span { font-size: 0.75rem; text-align: center; }
+            .results-header { flex-direction: column; align-items: flex-start; gap: 12px; }
+            
+            .gateway-terminal { padding: 20px; width: 92vw; }
+            .gateway-title { font-size: 0.85rem; }
         }
     </style>
 </head>
@@ -1092,9 +1113,7 @@
                                 {% endif %}
                                 
                                 <a href="https://www.google.com/search?q={{ (data.title ~ " " ~ data.location)|urlencode }}" target="_blank" rel="noopener noreferrer" class="btn-search" title="Search on Google">
-    <i class="bi bi-google"></i>
-</a>
-                                    <i class="bi bi-hash"></i>
+                                    <i class="bi bi-google"></i>
                                 </a>
                             </div>
                         </div>
