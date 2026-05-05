@@ -7,6 +7,11 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
     
     <style>
+        /* ── CSS RESET & BOX MODEL FIX ── */
+        *, *::before, *::after {
+            box-sizing: border-box;
+        }
+
         /* =====================================================
            DESIGN SYSTEM: BIOPUNK LAB TERMINAL (ARIAL EDITION)
            Aesthetic: Bioluminescent science, dark precision
@@ -36,7 +41,6 @@
         }
 
         body {
-            /* PERMANENT FONT CHANGE TO ARIAL */
             font-family: Arial, Helvetica, sans-serif;
             background-color: var(--bg);
             color: var(--text);
@@ -44,6 +48,7 @@
             overflow-x: hidden;
             transition: background-color 0.4s ease, color 0.4s ease;
             margin: 0;
+            padding: 0;
         }
 
         body.light-mode {
@@ -458,7 +463,6 @@
             padding: 14px 16px;
             outline: none;
             transition: all 0.25s;
-            box-sizing: border-box;
         }
         .bio-select {
             appearance: none;
@@ -521,7 +525,6 @@
             text-transform: uppercase;
             letter-spacing: 0.05em;
             backdrop-filter: blur(5px);
-            box-sizing: border-box;
         }
         .ad-panel i { font-size: 2rem; margin-bottom: 10px; color: var(--bio-border); display: block; }
 
@@ -692,6 +695,7 @@
         }
         .gateway-terminal {
             width: 520px;
+            max-width: 90vw;
             background: var(--surface);
             border: 1px solid var(--bio-border);
             border-radius: 16px;
@@ -770,7 +774,7 @@
             .topbar-inner { padding: 0 16px; }
             .sys-badge { display: none; }
             .brand-wordmark { font-size: 1.35rem; }
-            .sidebar-wrapper { position: relative; top: 0; }
+            .sidebar-wrapper { position: relative; top: 0; max-height: none; overflow-y: visible; padding-bottom: 0; }
         }
         
         @media (max-width: 768px) {
@@ -805,7 +809,7 @@
             /* 2. Theme Toggle Placement */
             .topbar-right { order: 2; }
             .sys-badge { display: none; }
-            .theme-btn { width: 36px; height: 36px; font-size: 0.9rem; }
+            .theme-btn { width: 36px; height: 36px; font-size: 0.9rem; margin-top: 0; }
 
             /* 3. Horizontal Scrollable Navbar */
             .nav-links { 
@@ -815,12 +819,12 @@
                 flex-wrap: nowrap; 
                 overflow-x: auto; 
                 padding: 16px 0 4px 0; 
-                margin-top: 4px;
+                margin-top: 8px;
                 border-top: 1px solid rgba(0, 255, 163, 0.1);
                 justify-content: flex-start;
                 gap: 12px;
-                scrollbar-width: none; /* Firefox */
-                -ms-overflow-style: none;  /* IE and Edge */
+                scrollbar-width: none;
+                -ms-overflow-style: none;
                 -webkit-overflow-scrolling: touch;
             }
             .nav-links::-webkit-scrollbar { display: none; }
@@ -1050,7 +1054,7 @@
 
                             {% if score > 0 %}
                             <div class="score-ring-wrap">
-                                <svg viewBox="0 0 78 78">
+                                <svg width="78" height="78" viewBox="0 0 78 78">
                                     <circle class="ring-track" cx="39" cy="39" r="34"/>
                                     <circle class="ring-fill" cx="39" cy="39" r="34"
                                         stroke-dasharray="213.6"
