@@ -291,13 +291,6 @@
             transition: all 0.4s ease;
         }
 
-        .brand:hover .brand-mark {
-            border-color: var(--bio);
-            box-shadow: 0 0 30px rgba(0, 255, 163, 0.45), inset 0 0 20px rgba(0, 255, 163, 0.25);
-        }
-        .brand:hover .brand-mark::before { inset: -6px; border-color: rgba(59, 255, 214, 0.35); }
-        .brand:hover .brand-mark::after { inset: -12px; border-color: var(--bio); opacity: 0.4; }
-
         .brand-mark svg .layer-outer { transform-origin: center; animation: radarRotation 14s linear infinite; }
         .brand-mark svg .layer-mid { transform-origin: center; animation: radarRotation 7s linear infinite reverse; }
         .brand-mark svg .layer-core { transform-origin: center; animation: bioPulse 2.2s ease-in-out infinite; }
@@ -403,7 +396,6 @@
             align-items: start;
         }
 
-        /* 💥 CRITICAL GRID BLOWOUT FIX */
         .main-grid > div {
             min-width: 0;
             max-width: 100%;
@@ -513,8 +505,8 @@
         }
         @keyframes spin { to { transform: rotate(360deg); } }
 
-        /* ── AD SPACE PANEL ── */
-        .ad-panel {
+        /* ── STEALTH PROMO SPACE (Bypasses Adblockers) ── */
+        .promo-module {
             margin-top: 24px;
             background: var(--glass-light);
             border: 1px dashed var(--bio-border);
@@ -531,6 +523,7 @@
             letter-spacing: 0.05em;
             backdrop-filter: blur(5px);
         }
+        .promo-module i { font-size: 2rem; margin-bottom: 10px; color: var(--bio-border); display: block; }
 
         /* ── RIGHT COLUMN HEADER ── */
         .results-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 24px; }
@@ -632,7 +625,7 @@
             transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
-        .btn-creative-gateway span { color: #ffffff; font-weight: 400; opacity: 0.7; white-space: normal; text-align: left; }
+        .btn-creative-gateway span { color: #ffffff; font-weight: 400; opacity: 0.7; white-space: normal; text-align: left; transition: opacity 0.3s;}
         .btn-creative-gateway::before {
             content: ''; position: absolute; top: 0; left: -100%; width: 100%; height: 100%;
             background: linear-gradient(90deg, transparent, rgba(59, 255, 214, 0.15), transparent);
@@ -761,7 +754,7 @@
             .cta-row { flex-direction: column; align-items: stretch; gap: 12px; width: 100%; }
             .cta-group { width: 100%; display: flex; gap: 8px; }
             .btn-creative-gateway { flex: 1; justify-content: center; padding: 12px; text-align: center; }
-            .btn-creative-gateway span { font-size: 0.75rem; text-align: center; white-space: normal; line-height: 1.4;}
+            .btn-creative-gateway span { font-size: 0.75rem; text-align: center; }
             .results-header { flex-direction: column; align-items: flex-start; gap: 12px; width: 100%; }
             
             .gateway-terminal { padding: 20px; width: 92vw; }
@@ -903,10 +896,10 @@
                     </div>
                 </div>
 
-                <div class="ad-panel">
+                <div class="promo-module">
                     <div>
                         <i class="bi bi-broadcast"></i>
-                        <br>[ AdSense Space Placeholder ]<br>
+                        <br>[ System Broadcast Space ]<br>
                         <span>300 x 250</span>
                     </div>
                 </div>
@@ -968,7 +961,7 @@
 
                             {% if score > 0 %}
                             <div class="score-ring-wrap">
-                                <svg width="78" height="78" viewBox="0 0 78 78">
+                                <svg viewBox="0 0 78 78">
                                     <circle class="ring-track" cx="39" cy="39" r="34"/>
                                     <circle class="ring-fill" cx="39" cy="39" r="34"
                                         stroke-dasharray="213.6"
@@ -1060,7 +1053,7 @@
                                         <i class="bi bi-terminal-fill"></i> <span>click here on the link to apply</span>
                                     </button>
                                 {% else %}
-                                    <button onclick="executeSecureRouting('https://www.google.com/search?q={{ (data.title ~ " official portal application direct " ~ data.location)|urlencode }}&btnI=I', '{{ data.title | escape }}', true)" class="btn-creative-gateway">
+                                    <button onclick="executeSecureRouting('https://www.google.com/search?q={{ (data.title ~ " official portal application direct " ~ data.location)|urlencode }}&btnI=I', '{{ data.title | escape }}', true)" class="btn-creative-gateway" style="border-color: rgba(59, 255, 214, 0.25);">
                                         <i class="bi bi-box-arrow-up-right"></i> <span>click here to auto-route to application</span>
                                     </button>
                                 {% endif %}
