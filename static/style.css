@@ -166,17 +166,14 @@ body.light-mode::before { opacity: 0.4; }
     position: sticky;
     top: 0;
     z-index: 1000;
-    background: rgba(5, 10, 18, 0.88);
-    /* REDUCED BLUR: From 20px to 8px to fix Safari scrolling lag */
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
+    background: rgba(8, 15, 28, 0.98); /* Solid background to fix lag */
     border-bottom: 1px solid var(--bio-border);
     height: 75px;
     display: flex;
     align-items: center;
     transition: background 0.4s ease;
 }
-body.light-mode .topbar { background: rgba(240, 250, 246, 0.9); }
+body.light-mode .topbar { background: rgba(245, 252, 249, 0.98); } /* Solid light mode background */
 
 .topbar-inner {
     max-width: 1320px;
@@ -347,15 +344,13 @@ body.light-mode .topbar { background: rgba(240, 250, 246, 0.9); }
 
 /* ── PANELS ── */
 .panel {
-    background: var(--glass);
+    background: rgba(8, 15, 28, 0.98); /* Solid background to fix lag */
     border: 1px solid var(--bio-border);
     border-radius: 20px;
-    /* REDUCED BLUR: From 12px to 8px to fix Safari scrolling lag */
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
     position: relative;
     overflow: hidden;
 }
+body.light-mode .panel { background: rgba(255, 255, 255, 0.98); } /* Solid light mode background */
 
 .panel-head { padding: 22px 26px 18px; border-bottom: 1px solid var(--line); display: flex; align-items: center; gap: 12px; }
 .panel-head-icon {
