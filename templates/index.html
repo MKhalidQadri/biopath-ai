@@ -75,7 +75,6 @@
             pointer-events: none;
             z-index: 0;
             opacity: 0.35;
-            /* GPU Hint */
             transform: translateZ(0); 
         }
 
@@ -114,11 +113,10 @@
 
         body.light-mode::after {
             opacity: 0.15;
-            /* Removed heavy mix-blend-mode for massive performance gain */
             filter: grayscale(100%) sepia(1) hue-rotate(90deg) saturate(3) brightness(0.8);
         }
 
-        /* ── FLOATING CHINAR LEAVES (GPU OPTIMIZED) ── */
+        /* ── FLOATING CHINAR LEAVES ── */
         .chinar-leaf-container {
             position: fixed;
             top: 0;
@@ -147,7 +145,6 @@
 
         body.light-mode .chinar-leaf { 
             opacity: 0.15; 
-            /* Removed mix-blend-mode to stop GPU thrashing */
             filter: grayscale(100%) sepia(1) hue-rotate(90deg) saturate(3) brightness(0.8);
         }
 
@@ -179,7 +176,6 @@
             align-items: center;
             transition: background 0.3s ease;
             width: 100%;
-            /* Force onto GPU layer to stop repaint lag */
             backface-visibility: hidden; 
         }
         body.light-mode .topbar { background: rgba(240, 250, 246, 0.9); }
@@ -399,9 +395,7 @@
             scrollbar-width: none; 
             -ms-overflow-style: none; 
         }
-        .sidebar-wrapper::-webkit-scrollbar {
-            display: none;
-        }
+        .sidebar-wrapper::-webkit-scrollbar { display: none; }
 
         /* ── PANEL / CARD ── */
         .panel {
@@ -414,7 +408,7 @@
             overflow: hidden;
             transition: background 0.3s ease;
             width: 100%;
-            backface-visibility: hidden; /* Fix GPU Repaint lag */
+            backface-visibility: hidden; 
         }
         .panel::before {
             content: '';
@@ -537,7 +531,7 @@
             animation: card-in 0.5s ease both;
             width: 100%;
             overflow-wrap: break-word; 
-            backface-visibility: hidden; /* Fix GPU Repaint lag */
+            backface-visibility: hidden; 
         }
         @keyframes card-in { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
         .opp-card:hover { transform: translateY(-6px); border-color: rgba(0,255,163,0.45); box-shadow: 0 24px 48px rgba(0,0,0,0.3), 0 0 0 1px rgba(0,255,163,0.1); }
@@ -694,6 +688,23 @@
 
             /* Advanced Mobile Card Layout */
             .main-grid { padding: 20px 16px 60px; gap: 20px; width: 100%; overflow: hidden; }
+            
+            /* 💥 KILL FROSTED GLASS ON MOBILE TO FIX LAG 💥 */
+            .topbar, .panel, .opp-card, .promo-module, .gateway-terminal {
+                backdrop-filter: none !important;
+                -webkit-backdrop-filter: none !important;
+                background: #080f1c !important; /* Solid dark background fallback */
+            }
+            body.light-mode .topbar, body.light-mode .panel, body.light-mode .opp-card, body.light-mode .promo-module, body.light-mode .gateway-terminal {
+                background: #ffffff !important; /* Solid light background fallback */
+            }
+
+            /* 💥 HIDE MASSIVE ANIMATED LEAVES ON MOBILE 💥 */
+            .chinar-leaf-container { display: none !important; }
+            
+            /* 💥 STOP LOGO GRADIENT ANIMATION ON MOBILE 💥 */
+            .brand-wordmark span { animation: none !important; background-position: 0 0 !important; }
+
             .opp-card { padding: 20px; margin-bottom: 16px; width: 100%; }
             .card-top { flex-direction: column; gap: 16px; align-items: flex-start; width: 100%; }
             
@@ -1035,7 +1046,7 @@
 
         function initParticles() {
             // Drop particle count drastically to fix lag
-            const count = window.innerWidth < 768 ? 20 : 50;
+            const count = window.innerWidth < 768 ? 15 : 40;
             particles = Array.from({ length: count }, createParticle);
         }
 
@@ -1056,8 +1067,7 @@
 
                 for (let j = i + 1; j < particles.length; j++) {
                     const q = particles[j];
-                    const dx = p.x - q.x;
-                    const dy = p.y - q.y;
+                    const dx = p.x - q.x, dy = p.y - q.y;
                     
                     // MATH OPTIMIZATION: Use Distance Squared to bypass heavy Math.sqrt calculations
                     const distSq = dx * dx + dy * dy;
@@ -1110,14 +1120,11 @@
             document.getElementById('btn-icon').style.display = 'none';
         }
 
-        /* ── SAFARI-Bypass ROUTING CONTROLLER ── */
+        /* ── SEAMLESS SAME-TAB ROUTING CONTROLLER ── */
         function executeSecureRouting(targetUrl, itemTitle, isSearchBypass) {
             const overlay = document.getElementById('routingGateway');
             const logsContainer = document.getElementById('gatewayLogs');
             const progressBar = document.getElementById('gatewayProgress');
-            
-            // APPLE WEB-KIT FIX: Open the tab synchronously before the timer starts
-            const secureTab = window.open('about:blank', '_blank', 'noopener,noreferrer');
             
             logsContainer.innerHTML = '';
             progressBar.style.width = '0%';
@@ -1144,13 +1151,10 @@
             setTimeout(() => { progressBar.style.width = '100%'; }, 50);
 
             setTimeout(() => {
-                // Route the pre-opened tab to the actual destination
-                if (secureTab) {
-                    secureTab.location.href = targetUrl;
-                } else {
-                    // Fallback just in case they have a hardcore blocker that killed the pre-open
-                    window.location.href = targetUrl; 
-                }
+                // Route the current tab seamlessly (No blank pages, bypasses all popup blockers)
+                window.location.href = targetUrl;
+                
+                // Hide overlay after they leave, so it's gone if they press the "Back" button
                 setTimeout(() => { overlay.classList.remove('active'); }, 500);
             }, 1950);
         }
