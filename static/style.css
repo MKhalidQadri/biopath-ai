@@ -102,6 +102,11 @@ body.light-mode::after {
     
     /* Applies the same aesthetic integration as the watermark */
     filter: grayscale(100%) invert(1) brightness(1.2) sepia(1) saturate(5) hue-rotate(90deg);
+
+    /* HARDWARE ACCELERATION FIX: Forces GPU to render the heavy filter and movement */
+    will-change: transform, filter;
+    transform: translateZ(0);
+    backface-visibility: hidden;
 }
 
 /* Variety in leaf behavior and scaled up for the custom image */
@@ -162,8 +167,9 @@ body.light-mode::before { opacity: 0.4; }
     top: 0;
     z-index: 1000;
     background: rgba(5, 10, 18, 0.88);
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
+    /* REDUCED BLUR: From 20px to 8px to fix Safari scrolling lag */
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
     border-bottom: 1px solid var(--bio-border);
     height: 75px;
     display: flex;
@@ -344,8 +350,9 @@ body.light-mode .topbar { background: rgba(240, 250, 246, 0.9); }
     background: var(--glass);
     border: 1px solid var(--bio-border);
     border-radius: 20px;
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
+    /* REDUCED BLUR: From 12px to 8px to fix Safari scrolling lag */
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
     position: relative;
     overflow: hidden;
 }
@@ -432,4 +439,27 @@ body.light-mode .topbar { background: rgba(240, 250, 246, 0.9); }
 @media (max-width: 960px) {
     .main-grid { grid-template-columns: 1fr; }
     .sidebar-wrapper { position: relative; top: 0; }
+}
+
+/* =======================================================
+   PERFORMANCE & SAFARI FALLBACKS (ADDED FOR LAG FIX)
+======================================================= */
+
+/* 1. Saftey net for Safari: If it really struggles with blur, use a solid color fallback */
+@supports (-webkit-backdrop-filter: none) {
+    .topbar, .panel {
+        background: rgba(8, 15, 28, 0.98); 
+        -webkit-backdrop-filter: none;
+        backdrop-filter: none;
+    }
+    body.light-mode .topbar, body.light-mode .panel {
+        background: rgba(255, 255, 255, 0.98);
+    }
+}
+
+/* 2. Emergency Brake: Disable heavy animated leaves on small mobile devices to save battery */
+@media (max-width: 768px) {
+    .chinar-leaf-container {
+        display: none !important;
+    }
 }

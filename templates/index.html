@@ -139,7 +139,12 @@
             opacity: 0.25;
             animation: fall linear infinite;
             filter: grayscale(100%) invert(1) brightness(1.2) sepia(1) saturate(5) hue-rotate(90deg);
-            will-change: transform;
+            
+            /* HARDWARE ACCELERATION FIX */
+            will-change: transform, filter;
+            transform: translateZ(0);
+            backface-visibility: hidden;
+            
             transition: filter 0.3s ease, opacity 0.3s ease;
         }
 
@@ -168,8 +173,11 @@
             top: 0;
             z-index: 1000;
             background: rgba(5, 10, 18, 0.88);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
+            
+            /* REDUCED BLUR: From 20px to 8px to fix Safari lag */
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            
             border-bottom: 1px solid var(--bio-border);
             height: 75px;
             display: flex;
@@ -402,8 +410,11 @@
             background: var(--glass);
             border: 1px solid var(--bio-border);
             border-radius: 20px;
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
+            
+            /* REDUCED BLUR: From 12px to 8px to fix Safari lag */
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            
             position: relative;
             overflow: hidden;
             transition: background 0.3s ease;
@@ -724,6 +735,25 @@
             
             .gateway-terminal { padding: 20px; width: 92vw; }
             .gateway-title { font-size: 0.85rem; }
+        }
+
+        /* =======================================================
+           PERFORMANCE & SAFARI FALLBACKS (ADDED FOR LAG FIX)
+        ======================================================= */
+        @supports (-webkit-backdrop-filter: none) {
+            .topbar, .panel {
+                background: rgba(8, 15, 28, 0.98) !important; 
+                -webkit-backdrop-filter: none !important;
+                backdrop-filter: none !important;
+            }
+            body.light-mode .topbar, body.light-mode .panel {
+                background: rgba(255, 255, 255, 0.98) !important;
+            }
+        }
+        @media (max-width: 768px) {
+            .chinar-leaf-container {
+                display: none !important;
+            }
         }
     </style>
 </head>
@@ -1046,7 +1076,7 @@
 
         function initParticles() {
             // Drop particle count drastically to fix lag
-            const count = window.innerWidth < 768 ? 15 : 40;
+            const count = window.innerWidth < 768 ? 8 : 20;
             particles = Array.from({ length: count }, createParticle);
         }
 
